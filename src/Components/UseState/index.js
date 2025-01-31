@@ -6,6 +6,35 @@ const SECURITY_CODE = 'paradigma'
 
 function UseState({ name }) {
 
+  const onConfirm = () => {
+    setState({
+      ...state,
+      error: false,
+      loading: false,
+      confirmed: true,
+    });
+  }
+  const onError = () => {
+    setState({
+      ...state,
+      error: true,
+      loading: false 
+    });
+  }
+  const onWrite = (newValue) => {
+    setState({
+      ...state,
+      value:(newValue),
+    });
+	}
+	const onCheck = () => {
+    setState({
+      ...state,
+      loading: true,
+      error: false,
+    });
+	}
+
   const [state, setState] = useState({
     value: '',
     error: false,
@@ -13,9 +42,6 @@ function UseState({ name }) {
     deleted: false,
     confirmed: false,
   });
-/*   const [value, setValue] = useState('');
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false); */
 
   console.log(state.value);
 
@@ -27,18 +53,10 @@ function UseState({ name }) {
         console.log('Performing validation');
 
         if ( state.value === SECURITY_CODE){
-          setState({
-            ...state,
-            error: false,
-            loading: false,
-            confirmed: true,
-          });
+          onConfirm();
         } else {
-          setState({
-            ...state,
-            error: true,
-            loading: false 
-          })
+
+        onError();
         }
 
         console.log('Finishing validation');
@@ -65,22 +83,15 @@ function UseState({ name }) {
             placeholder="Security code"
             value={state.value}
             onChange={(event) => {
-              setState({
-                ...state,
-                value:(event.target.value),
-              });
+              onWrite(event.target.value);
             }}
           />
           <button 
             onClick={() => { 
-              setState({
-                ...state,
-                loading: true,
-                error: false,
-              });
+              onCheck();
             }}
   
-          >Verify</button>
+          >Check</button>
       </div>
     );
 
