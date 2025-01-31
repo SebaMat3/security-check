@@ -1,18 +1,22 @@
+//src/Components/ClassState/index.js
 import React from 'react';
 import { Loading } from '../Loading';
 
-//Component from class
+const SECURITY_CODE = 'paradigma'
+
+
 class ClassState extends React.Component {
   constructor(props) {
     super(props);
   
     this.state = {
       error: false,
-      loading: true
+      loading: false,
+      value:'',
     }
   }
-
-/*   componentWillUnmount(){
+  
+  /*   componentWillUnmount(){
     console.log('componentWillUnmount')
   }
   componentDidMount(){
@@ -21,34 +25,48 @@ class ClassState extends React.Component {
   UNSAFE_componentWillMount() {
     console.log('componentWillMount')
   } */
+
   componentDidUpdate(){
+
     if(!!this.state.loading){
       setTimeout(() => {
         console.log("Loading...");
-
-        this.setState({ loading: false})
         
-        console.log("Loading success");
-      }, 3000)
-    }
+        if ( SECURITY_CODE !== this.state.value ){
+          this.setState({ error: true, loading: false})
+        }
+        this.setState({ loading: false})
+      
+      console.log("Loading success");
+    }, 3000)
   }
+}
 
-  render() {
-    return (
+render() {
+  const {error, loading, value} = this.state;
+
+  return (
       <div>
         <h2>Eliminate {this.props.name}</h2>
 
         <p>Please, write the security code.</p>
 
-        { this.state.error && 
+        { error && !loading
           (<p>Error: the code is incorrect</p>)}
 
-        { this.state.loading && 
+        { loading && 
           (<Loading/>)}
 
-        <input placeholder="Security code" />
+        <input 
+          placeholder="Security code"
+          onChange={(event) => {
+            this.setState({value: event.target.value});
+          }}
+          value={value} 
+        />
+
         <button
-          onClick={() => this.setState({ loading:false })}
+          onClick={() => this.setState({ loading:true })}
           //this.setState({error: !this.state.error}) && 
           //onClick={() => this.setState(prevState => ({error: !prevState}))} 
         >Verify</button>

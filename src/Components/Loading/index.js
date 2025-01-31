@@ -1,3 +1,4 @@
+//src/Components/Loading/index.js
 import React from 'react';
 
 class Loading extends React.Component {
