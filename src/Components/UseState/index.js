@@ -34,6 +34,22 @@ function UseState({ name }) {
       error: false,
     });
 	}
+  const onDelete = () => {
+    setState({
+      ...state,
+      deleted: true,
+    })
+	}
+  const onReset = () => {
+    setState({
+      ...state,
+      confirmed: false,
+      deleted: false,
+      value: '',
+    })
+	}
+
+
 
   const [state, setState] = useState({
     value: '',
@@ -102,21 +118,14 @@ function UseState({ name }) {
 
         <button
           onClick={() => {
-            setState({
-              ...state,
-              deleted: true,
-            })
+            onDelete();
           }}
         > Accept
         </button> 
 
         <button 
           onClick={() => {
-            setState({
-              ...state,
-              confirmed: false,
-              value: '',
-            })
+            onReset();
           }}
         >Cancel
         </button>
@@ -129,12 +138,7 @@ function UseState({ name }) {
         <p>Succesful delete!</p>
           <button
             onClick={() => {
-              setState({
-                ...state,
-                confirmed: false,
-                deleted: false,
-                value: '',
-              })
+              onReset();
           }}> Reload </button> 
       </React.Fragment>
     )
