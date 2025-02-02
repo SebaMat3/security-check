@@ -50,7 +50,6 @@ function UseState({ name }) {
 	}
 
 
-
   const [state, setState] = useState({
     value: '',
     error: false,
